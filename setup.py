@@ -13,6 +13,8 @@ setup(
         "rlog @ git+https://github.com/camerondub/python-rlog.git#egg=rlog",
         "py-solc-x",
         "web3",
+        "ipython",
+        "traitlets",
     ],
-    entry_points={"console_scripts": []},
+    entry_points={"console_scripts": ["web3interact = web3interact:main"]},
 )

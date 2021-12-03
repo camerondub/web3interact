@@ -18,6 +18,9 @@ if config("WEB3_POA", default=False):
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 w3.eth.default_account = w3.eth.accounts[config("WEB3_KEY_INDEX", cast=int, default=0)]
 
+acct = w3.eth.default_account
+eth = w3.eth
+
 
 def _load_abi(contract_name):
     with open(f"{contract_dir}/{contract_name}.json") as f:

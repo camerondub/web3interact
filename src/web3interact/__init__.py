@@ -61,7 +61,7 @@ def main():
 
     # fetch named contract objects from cmdline
     for name in args.names:
-        abbrev = str([char for char in name if char.isupper()]).lower()
+        abbrev = [char for char in name if char.isupper()].join("").lower()
         exec(f"{abbrev}_c = get_contract('{name}')")
         exec(f"{abbrev} = {abbrev}_c.functions")
 

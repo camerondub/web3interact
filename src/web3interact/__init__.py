@@ -61,8 +61,9 @@ def main():
 
     # fetch named contract objects from cmdline
     for name in args.names:
-        exec(f"{name}Contract = get_contract('{name}')")
-        exec(f"{name} = {name}Contract.caller")
+        abbrev = str([char for char in name if char.isupper()]).lower()
+        exec(f"{abbrev}_c = get_contract('{name}')")
+        exec(f"{abbrev} = {abbrev}_c.functions")
 
     # start interactive shell
     c = get_config()

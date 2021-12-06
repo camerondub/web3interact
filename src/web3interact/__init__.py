@@ -44,9 +44,7 @@ def get_contract(contract_name):
 
 def main():
     parser = argparse.ArgumentParser(description="deploy solidity contracts through json-rpc")
-    parser.add_argument(
-        "--names", "-n", nargs="*", required=True, help="names of contracts (case-sensitive)"
-    )
+    parser.add_argument("--names", "-n", nargs="*", help="names of contracts (case-sensitive)")
     parser.add_argument("--envdesc", "-d", action="store_true")
     args = parser.parse_args()
 
@@ -60,7 +58,14 @@ def main():
         sys.exit(0)
 
     # fetch named contract objects from cmdline
-    for name in args.names:
+    if args.names:
+        names = args.names
+    else:
+        with open(f"{build_dir}/address.json") as f:
+            address_dct = json.load(f)
+        names = list(address_dct)
+
+    for name in names:
         abbrev = "".join([char for char in name if char.isupper()]).lower()
         exec(f"{abbrev}_c = get_contract('{name}')")
         exec(f"{abbrev} = {abbrev}_c.functions")

@@ -13,7 +13,7 @@ contract_dir = f"{build_dir}/contract"
 
 w3 = Web3(Web3.HTTPProvider(config("WEB3_HTTP_PROVIDER", default="http://localhost:8545")))
 
-if config("WEB3_POA", default=False):
+if config("WEB3_POA", default=False, cast=bool):
     print("Injecting geth_poa_middleware...")
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 w3.eth.default_account = w3.eth.accounts[config("WEB3_KEY_INDEX", cast=int, default=0)]

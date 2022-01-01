@@ -61,9 +61,12 @@ def main():
     if args.names:
         names = args.names
     else:
-        with open(f"{build_dir}/address.json") as f:
-            address_dct = json.load(f)
-        names = list(address_dct)
+        try:
+            with open(f"{build_dir}/address.json") as f:
+                address_dct = json.load(f)
+                names = list(address_dct)
+        except FileNotFoundError:
+            names = []
 
     for name in names:
         abbrev = "".join([char for char in name if char.isupper()]).lower()

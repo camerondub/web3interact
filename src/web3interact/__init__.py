@@ -66,6 +66,7 @@ def main():
                 address_dct = json.load(f)
                 names = list(address_dct)
         except FileNotFoundError:
+            print("build/web3deploy/address.json not found, no contracts loaded")
             names = []
 
     for name in names:

@@ -23,23 +23,30 @@ eth = w3.eth
 
 
 def _load_abi(contract_name):
-    with open(f"{contract_dir}/{contract_name}.json") as f:
-        compile_metadata = json.load(f)
-    for contract_id, metadata in compile_metadata.items():
-        section_name = contract_id.split(":")[-1]
-        if section_name == contract_name:
-            return metadata
-    raise KeyError(
-        f"contract name {contract_name} not found in {contract_dir}/{contract_name}.json"
-    )
+    try:
+        with open(f"{contract_dir}/{contract_name}.json") as f:
+            compile_metadata = json.load(f)
+        for contract_id, metadata in compile_metadata.items():
+            section_name = contract_id.split(":")[-1]
+            if section_name == contract_name:
+                return metadata["abi"]
+    except FileNotFoundError:
+        pass
+    else:
+        raise KeyError(
+            f"contract name {contract_name} not found in {contract_dir}/{contract_name}.json"
+        )
+    with open(f"{contract_dir}/{contract_name}.abi") as f:
+        contract_abi = json.load(f)
+        return contract_abi
 
 
 def get_contract(contract_name):
     with open(f"{build_dir}/address.json") as f:
         contract_addr = json.load(f)[contract_name]
 
-    contract_metadata = _load_abi(contract_name)
-    return w3.eth.contract(address=contract_addr, abi=contract_metadata["abi"])
+    contract_abi = _load_abi(contract_name)
+    return w3.eth.contract(address=contract_addr, abi=contract_abi)
 
 
 def main():

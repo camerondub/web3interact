@@ -83,5 +83,5 @@ def main():
 
     # start interactive shell
     c = get_config()
-    c.InteractiveShellEmbed.colors = "Linux"
+    c.InteractiveShellEmbed.colors = "neutral"
     embed(config=c)
